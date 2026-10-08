@@ -10,25 +10,34 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
-    container:
-      image: node:24
-      env:
-        PORT: 8080
+    # container:
+    #   image: node:24
+    env:
+      PORT: 8080
 
-        # Connect to MongoDB Atlas
-        # MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-        # MONGODB_CLUSTER_ADDRESS: ${{ secrets.MONGODB_CLUSTER_ADDRESS }}
-        # MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-        # MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      # Connect to MongoDB Atlas
+      # MONGODB_CONNECTION_PROTOCOL: mongodb+srv
+      # MONGODB_CLUSTER_ADDRESS: ${{ secrets.MONGODB_CLUSTER_ADDRESS }}
+      # MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      # MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
 
-        # Connect to mongodb service
-        MONGODB_CONNECTION_PROTOCOL: mongodb
-        MONGODB_CLUSTER_ADDRESS: mongodb
-        MONGODB_USERNAME: user_1
-        MONGODB_PASSWORD: some-pass
+      # Connect to mongodb service
+      # MONGODB_CONNECTION_PROTOCOL: mongodb
+      # MONGODB_CLUSTER_ADDRESS: mongodb
+      # MONGODB_USERNAME: user_1
+      # MONGODB_PASSWORD: some-pass
+
+      # Connect to mongodb service outside container
+      MONGODB_CONNECTION_PROTOCOL: mongodb
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017
+      MONGODB_USERNAME: user_1
+      MONGODB_PASSWORD: some-pass
     services:
       mongodb:
         image: mongo:9.0
+        # Only when exposing (i.e. job runs NOT inside container)
+        ports:
+          - 27017:27017
         env:
           MONGO_INITDB_ROOT_USERNAME: user_1
           MONGO_INITDB_ROOT_PASSWORD: some-pass
