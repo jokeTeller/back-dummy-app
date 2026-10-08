@@ -1,6 +1,12 @@
 # Modules
 node_modules/
 
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
 # Tests
 /test-results/
 /playwright-report/
